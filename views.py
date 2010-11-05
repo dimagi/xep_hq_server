@@ -22,8 +22,8 @@ get_xform = _import_func(settings.XEP_GET_XFORM)
 put_xform = _import_func(settings.XEP_PUT_XFORM)
 
 @require_POST
+@authorize
 def initiate(request, xform_id):
-    authorize(request, xform_id)
     callback = request.POST['callback']
     editor = request.POST['editor']
     
