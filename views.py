@@ -31,7 +31,7 @@ def initiate(request, xform_id):
     
     response = post_multipart(editor, {
         'session_key': hqsession.key,
-        'callback': "%s%s" % (settings.URL_BASE, reverse('xep_hq_server.views.save')),
+        'callback': "http://%s%s" % (request.get_host(), reverse('xep_hq_server.views.save')),
     }.items(), [
         ('xform', 'xform.xml', get_xform(xform_id))
     ])
