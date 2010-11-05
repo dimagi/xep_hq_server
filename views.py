@@ -17,16 +17,14 @@ def _import_func(full_func_name):
     func = getattr(mod, func_name)
     return func
 
-try:
-    authorize = _import_func(settings.XEP_AUTHORIZE)
-except:
-    authorize = lambda request, xform_id: None
+
+authorize = _import_func(settings.XEP_AUTHORIZE)
 get_xform = _import_func(settings.XEP_GET_XFORM)
 put_xform = _import_func(settings.XEP_PUT_XFORM)
 
 @require_POST
+@authorize
 def initiate(request, xform_id):
-    authorize(request, xform_id)
     callback = request.POST['callback']
     editor = request.POST['editor']
     
