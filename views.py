@@ -18,7 +18,6 @@ def _import_func(full_func_name):
     func = getattr(mod, func_name)
     return func
 
-
 authorize = _import_func(settings.XEP_AUTHORIZE)
 get_xform = _import_func(settings.XEP_GET_XFORM)
 put_xform = _import_func(settings.XEP_PUT_XFORM)
