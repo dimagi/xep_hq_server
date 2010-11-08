@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST, require_GET
 
 from .models import HQSession
 import json
+from django.core.exceptions import ViewDoesNotExist
 
 def _import_func(full_func_name):
     parts = full_func_name.split('.')
@@ -21,6 +22,12 @@ def _import_func(full_func_name):
 authorize = _import_func(settings.XEP_AUTHORIZE)
 get_xform = _import_func(settings.XEP_GET_XFORM)
 put_xform = _import_func(settings.XEP_PUT_XFORM)
+try:
+    get_url_base = _import_func(settings.GET_URL_BASE)
+except ViewDoesNotExist:
+    url_base = settings.URL_BASE
+    def get_url_base():
+        return url_base
 
 @require_POST
 @authorize
@@ -34,7 +41,7 @@ def initiate(request, xform_id):
     
     response = post_multipart(editor, {
         'session_key': hqsession.key,
-        'callback': "http://%s%s" % (request.get_host(), reverse('xep_hq_server.views.save')),
+        'callback': "http://%s%s" % (get_url_base(), reverse('xep_hq_server.views.save')),
     }.items(), [
         ('xform', 'xform.xml', get_xform(xform_id))
     ])
