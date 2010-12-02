@@ -50,7 +50,7 @@ def initiate(request, xform_id):
 @require_POST
 def save(request):
     session_key = request.POST['session_key']
-    xform = request.FILES['xform'].read()
+    xform = unicode(request.FILES['xform'].read(), encoding="utf-8")
     cont = request.POST['continue']
     cont = {'true': True, 'false': False}[cont]
     response = {}
