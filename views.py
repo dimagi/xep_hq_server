@@ -51,7 +51,7 @@ def initiate(request, xform_id):
 def save(request):
     session_key = request.POST['session_key']
     xform = unicode(request.FILES['xform'].read(), encoding="utf-8")
-    cont = request.POST['continueEdit']
+    cont = request.POST['continue']
     cont = {'true': True, 'false': False}[cont]
     response = {}
     
@@ -67,13 +67,13 @@ def save(request):
         hqsession.genkey()
         hqsession.save()
         response.update({
-            'continueEdit': True,
+            'continue': True,
             'session_key': hqsession.key,
             'callback': None,
         })
     else:
         response.update({
-            'continueEdit': False,
+            'continue': False,
             'session_key': None,
             'callback': hqsession.callback,
         })
