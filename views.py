@@ -27,7 +27,7 @@ except:
     url_base = settings.URL_BASE
     def get_url_base():
         return url_base
-
+@csrf_exempt
 @require_POST
 @authorize
 def initiate(request, xform_id):
@@ -51,7 +51,7 @@ def initiate(request, xform_id):
 def save(request):
     session_key = request.POST['session_key']
     xform = unicode(request.FILES['xform'].read(), encoding="utf-8")
-    cont = request.POST['continue']
+    cont = request.POST['continueEdit']
     cont = {'true': True, 'false': False}[cont]
     response = {}
     
@@ -67,13 +67,13 @@ def save(request):
         hqsession.genkey()
         hqsession.save()
         response.update({
-            'continue': True,
+            'continueEdit': True,
             'session_key': hqsession.key,
             'callback': None,
         })
     else:
         response.update({
-            'continue': False,
+            'continueEdit': False,
             'session_key': None,
             'callback': hqsession.callback,
         })
