@@ -23,11 +23,11 @@ get_xform = _import_func(settings.XEP_GET_XFORM)
 put_xform = _import_func(settings.XEP_PUT_XFORM)
 try:
     get_url_base = _import_func(settings.GET_URL_BASE)
-except ViewDoesNotExist:
+except:
     url_base = settings.URL_BASE
     def get_url_base():
         return url_base
-
+@csrf_exempt
 @require_POST
 @authorize
 def initiate(request, xform_id):
