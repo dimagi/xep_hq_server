@@ -10,7 +10,7 @@ def post_multipart(host_selector, fields, files):
     Return the server's response page.
     """
 
-    host_selector = host_selector.lstrip('http://')
+    host_selector = host_selector.lstrip('htps:/')
     parts = host_selector.split('/')
     host = parts.pop(0)
     selector = '/' + '/'.join(parts)
