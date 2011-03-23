@@ -9,7 +9,7 @@ class HQSession(Document):
     
     @classmethod
     def get_by_key(cls, key):
-        hqsession = cls.view('xep_hq_server/sessions', key=key).all()[0]
+        hqsession = cls.view('xep_hq_server/sessions', key=key, include_docs=True).all()[0]
         return hqsession
     
     def genkey(self):
