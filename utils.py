@@ -1,3 +1,4 @@
+import logging
 from django.http import *
 ## {{{ http://code.activestate.com/recipes/146306/ (r1)
 # modified to support https
@@ -21,7 +22,13 @@ def post_multipart(host_selector, fields, files):
     h.putrequest('POST', selector)
     h.putheader('content-type', content_type)
     h.putheader('content-length', str(len(body)))
-    h.endheaders()
+    try:
+        h.endheaders()
+    except Exception:
+        logging.error("Error in post_multipart(host_selector=%r, fields=%r, files=%r)" % (
+            host_selector, fields, files
+        ))
+        raise
     h.send(body)
     errcode, errmsg, headers = h.getreply()
     if errcode == 302:
